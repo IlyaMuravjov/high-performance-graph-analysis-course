@@ -1,5 +1,7 @@
 black
+networkx
 pre-commit
 pygraphblas
+pygraphviz
 pytest
 scipy
