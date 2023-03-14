@@ -29,16 +29,11 @@ def bfs(adj_matrix: pgb.Matrix, start: int) -> List[int]:
         raise IndexError(f"Start {start} is out of range [0, {num_vertices})")
     front = pgb.Vector.sparse(pgb.BOOL, num_vertices)
     front[start] = True
-    res = pgb.Vector.dense(pgb.INT64, num_vertices, fill=-1)
-    visited = pgb.Vector.sparse(pgb.BOOL, num_vertices)
-    visited_nvals = visited.nvals
-    iter = 0
-    while True:
-        old_visited_nvals = visited_nvals
-        res[front] = iter
-        visited += front
-        visited_nvals = visited.nvals
-        if visited_nvals == old_visited_nvals:
-            return list(res.vals)
-        front.vxm(adj_matrix, out=front, mask=visited, desc=pgb.descriptor.RC)
-        iter += 1
+    res = pgb.Vector.sparse(pgb.INT64, num_vertices)
+    i = 0
+    while front.nvals != 0:
+        res[front] = i
+        front.vxm(adj_matrix, out=front, mask=res, desc=pgb.descriptor.RSC)
+        i += 1
+    res.assign_scalar(-1, mask=res, desc=pgb.descriptor.S & pgb.descriptor.C)
+    return list(res.vals)
