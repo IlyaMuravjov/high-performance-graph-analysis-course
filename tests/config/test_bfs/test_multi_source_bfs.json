@@ -1,0 +1,102 @@
+[
+  {
+    "graph": "no_edges",
+    "starts": [],
+    "expected-result": {}
+  },
+  {
+    "graph": "no_edges",
+    "starts": [0],
+    "expected-result": {
+      "0": [-1, -2]
+    }
+  },
+  {
+    "graph": "no_edges",
+    "starts": [1],
+    "expected-result": {
+      "1": [-2, -1]
+    }
+  },
+  {
+    "graph": "no_edges",
+    "starts": [0, 1],
+    "expected-result": {
+      "0": [-1, -2],
+      "1": [-2, -1]
+    }
+  },
+  {
+    "graph": "one_edge",
+    "starts": [0],
+    "expected-result": {
+      "0": [-1, 0]
+    }
+  },
+  {
+    "graph": "one_edge",
+    "starts": [1],
+    "expected-result": {
+      "1": [-2, -1]
+    }
+  },
+  {
+    "graph": "one_edge",
+    "starts": [0, 1],
+    "expected-result": {
+      "0": [-1, 0],
+      "1": [-2, -1]
+    }
+  },
+  {
+    "graph": "dag",
+    "starts": [1],
+    "expected-result": {
+     "1": [-2, -1, 1, 1, 2, 2]
+    }
+  },
+  {
+    "graph": "dag",
+    "starts": [0],
+    "expected-result": {
+     "0": [-1, 0, 0, 1, 2, 2]
+    }
+  },
+  {
+    "graph": "cycle",
+    "starts": [2],
+    "expected-result": {
+      "2": [4, 0, -1, 2, 3]
+    }
+  },
+  {
+    "graph": "disconnected",
+    "starts": [0],
+    "expected-result": {
+      "0": [-1, 0, 0, -2, -2, -2, -2]
+    }
+  },
+  {
+    "graph": "disconnected",
+    "starts": [4],
+    "expected-result": {
+      "4": [-2, -2, -2, 6, -1, 3, 4]
+    }
+  },
+  {
+    "graph": "disconnected",
+    "starts": [1],
+    "expected-result": {
+      "1": [-2, -1, 1, -2, -2, -2, -2]
+    }
+  },
+  {
+    "graph": "disconnected",
+    "starts": [0, 1, 4],
+    "expected-result": {
+      "0": [-1, 0, 0, -2, -2, -2, -2],
+      "1": [-2, -1, 1, -2, -2, -2, -2],
+      "4": [-2, -2, -2, 6, -1, 3, 4]
+    }
+  }
+]
