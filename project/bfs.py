@@ -1,25 +1,12 @@
+import pygraphblas as pgb
+
 from typing import List
 from typing import Tuple
 
-import pygraphblas as pgb
+from project.checks import check_bool_adj_matrix
+from project.checks import check_start_in_range
 
 __all__ = ["bfs", "multi_source_bfs"]
-
-
-def _check_adj_matrix(adj_matrix: pgb.Matrix):
-    if not adj_matrix.square:
-        raise ValueError(
-            f"Adjacency matrix must be square, provided shape: {adj_matrix.shape}"
-        )
-    if not adj_matrix.type == pgb.BOOL:
-        raise ValueError(
-            f"Adjacency matrix must have bool type, provided type: {adj_matrix.type}"
-        )
-
-
-def _check_start_in_range(start: int, num_vertices: int):
-    if not (0 <= start < num_vertices):
-        raise IndexError(f"Start {start} is out of range [0, {num_vertices})")
 
 
 def bfs(adj_matrix: pgb.Matrix, start: int) -> List[int]:
@@ -33,9 +20,9 @@ def bfs(adj_matrix: pgb.Matrix, start: int) -> List[int]:
     :raises ValueError: if the `adj_matrix` is not a square matrix or if it is not of `BOOL` data type
     :raises IndexError: if the `start` is out of range
     """
-    _check_adj_matrix(adj_matrix)
+    check_bool_adj_matrix(adj_matrix)
     num_vertices = adj_matrix.nrows
-    _check_start_in_range(start, num_vertices)
+    check_start_in_range(start, num_vertices)
     front = pgb.Vector.sparse(pgb.BOOL, num_vertices)
     front[start] = True
     res = pgb.Vector.sparse(pgb.INT64, num_vertices)
@@ -71,10 +58,10 @@ def multi_source_bfs(
     >>> print(parents)
     [(0, [-1, 0, 0, 1]), (2, [-2, -2, -1, 2])]
     """
-    _check_adj_matrix(adj_matrix)
+    check_bool_adj_matrix(adj_matrix)
     num_vertices = adj_matrix.nrows
     for start in starts:
-        _check_start_in_range(start, num_vertices)
+        check_start_in_range(start, num_vertices)
     front = pgb.Matrix.sparse(pgb.INT64, len(starts), num_vertices)
     for i, start in enumerate(starts):
         front[i, start] = -1
