@@ -3,11 +3,11 @@ import pygraphblas as pgb
 
 from project.bfs import bfs
 from project.bfs import multi_source_bfs
-from tests.utils import read_adj_matrix_for_graph
+from tests.utils import read_adj_matrix_for_digraph
 
 
 def test_bfs(config_data: dict):
-    adj_matrix = read_adj_matrix_for_graph(config_data["graph"])
+    adj_matrix = read_adj_matrix_for_digraph(config_data["graph"])
     start = int(config_data["start"])
     expected_result = [int(dist) for dist in config_data["expected-result"]]
     actual_result = bfs(adj_matrix, start)
@@ -15,7 +15,7 @@ def test_bfs(config_data: dict):
 
 
 def test_multi_source_bfs(config_data: dict):
-    adj_matrix = read_adj_matrix_for_graph(config_data["graph"])
+    adj_matrix = read_adj_matrix_for_digraph(config_data["graph"])
     starts = [int(start) for start in config_data["starts"]]
     expected_result = [
         (int(start), [int(parent) for parent in parents])
