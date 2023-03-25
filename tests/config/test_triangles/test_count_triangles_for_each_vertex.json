@@ -1,0 +1,18 @@
+[
+  {
+    "graph": "empty_undirected",
+    "expected-result": []
+  },
+  {
+    "graph": "undirected_star",
+    "expected-result": [0, 0, 0, 0]
+  },
+  {
+    "graph": "undirected_clique5",
+    "expected-result": [6, 6, 6, 6, 6]
+  },
+  {
+    "graph": "undirected",
+    "expected-result": [1, 2, 1, 0, 2, 2, 1, 0]
+  }
+]
