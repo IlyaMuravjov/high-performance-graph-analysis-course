@@ -9,7 +9,11 @@ __all__ = [
     "read_adj_matrix_for_digraph",
     "undirected_graph_to_symmetric_adj_matrix",
     "read_adj_matrix_for_undirected_graph",
+    "weighted_digraph_to_ajd_matrix",
+    "read_adj_matrix_for_weighted_digraph",
 ]
+
+_FLOAT_TYPE = pgb.FP64
 
 
 def read_graph(name: str) -> nx.Graph:
@@ -72,3 +76,26 @@ def read_adj_matrix_for_undirected_graph(name: str) -> pgb.Matrix:
     if graph.is_directed():
         raise ValueError("Input graph is directed. Expected undirected graph.")
     return undirected_graph_to_symmetric_adj_matrix(graph)
+
+
+def weighted_digraph_to_ajd_matrix(graph: nx.Graph) -> pgb.Matrix:
+    """
+    Creates floating point adjacency matrix for a given directed weighted graph
+    :param graph: input graph with edges having `label` attribute representing their weight
+    :return: floating point adjacency matrix
+    """
+    adj_matrix = pgb.Matrix.sparse(
+        _FLOAT_TYPE, graph.number_of_nodes(), graph.number_of_nodes()
+    )
+    for source, target, weight in graph.edges.data("label"):
+        adj_matrix[int(source), int(target)] = float(weight)
+    return adj_matrix
+
+
+def read_adj_matrix_for_weighted_digraph(name: str) -> pgb.Matrix:
+    """
+    Creates floating point adjacency matrix for a specified test directed weighted graph from `test/data/graphs` folder
+    :param name: the name of the graph with edges having `label` attribute representing their weight
+    :return: floating point adjacency matrix
+    """
+    return weighted_digraph_to_ajd_matrix(read_graph(name))
