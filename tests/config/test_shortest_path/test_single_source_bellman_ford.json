@@ -1,0 +1,43 @@
+[
+  {
+    "graph": "no_edges",
+    "start": 1,
+    "has-reachable-negative-cycle": 0,
+    "expected-result": ["inf", 0]
+  },
+  {
+    "graph": "one_weighted_edge",
+    "start": 0,
+    "has-reachable-negative-cycle": 0,
+    "expected-result": [0, 1]
+  },
+  {
+    "graph": "one_weighted_edge",
+    "start": 1,
+    "has-reachable-negative-cycle": 0,
+    "expected-result": ["inf", 0]
+  },
+  {
+    "graph": "negative_loop",
+    "start": 0,
+    "has-reachable-negative-cycle": 1
+  },
+  {
+    "graph": "weighted_dag",
+    "start": 0,
+    "has-reachable-negative-cycle": 0,
+    "expected-result": [0, 1, 2, 4, 4, 3]
+  },
+  {
+    "graph": "weighted_negative_edges",
+    "start": 2,
+    "has-reachable-negative-cycle": 0,
+    "expected-result": [0, -1, 0, 1, 5, 3, 5, 6]
+  },
+  {
+    "graph": "weighted_negative_loop",
+    "start": 2,
+    "has-reachable-negative-cycle": 1,
+    "expected-result": {}
+  }
+]

@@ -1,0 +1,61 @@
+[
+  {
+    "graph": "empty",
+    "starts": [],
+    "has-reachable-negative-cycle": 0,
+    "expected-result": {}
+  },
+  {
+    "graph": "no_edges",
+    "starts": [1, 0],
+    "has-reachable-negative-cycle": 0,
+    "expected-result": {
+      "1": ["inf", 0],
+      "0": [0, "inf"]
+    }
+  },
+  {
+    "graph": "one_weighted_edge",
+    "starts": [1, 0],
+    "has-reachable-negative-cycle": 0,
+    "expected-result": {
+      "1": ["inf", 0],
+      "0": [0, 1]
+    }
+  },
+  {
+    "graph": "negative_loop",
+    "starts": [0],
+    "has-reachable-negative-cycle": 1
+  },
+  {
+    "graph": "weighted_dag",
+    "starts": [0, 2],
+    "has-reachable-negative-cycle": 0,
+    "expected-result": {
+      "0": [0, 1, 2, 4, 4, 3],
+      "2": ["inf", "inf", 0, 4, 2, 1]
+    }
+  },
+  {
+    "graph": "weighted_dag",
+    "starts": [],
+    "has-reachable-negative-cycle": 0,
+    "expected-result": {}
+  },
+  {
+    "graph": "weighted_negative_edges",
+    "starts": [2, 4],
+    "has-reachable-negative-cycle": 0,
+    "expected-result": {
+      "2": [0, -1, 0, 1, 5, 3, 5, 6],
+      "4": [-1, -3, -1, 0, 0, -2, 0, 1]
+    }
+  },
+  {
+    "graph": "weighted_negative_loop",
+    "starts": [2, 4],
+    "has-reachable-negative-cycle": 1,
+    "expected-result": {}
+  }
+]
