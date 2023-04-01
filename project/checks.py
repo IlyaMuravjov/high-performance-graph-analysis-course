@@ -1,16 +1,16 @@
 import pygraphblas as pgb
 
-__all__ = ["check_bool_adj_matrix", "check_start_in_range"]
+__all__ = ["check_adj_matrix", "check_start_in_range"]
 
 
-def check_bool_adj_matrix(adj_matrix: pgb.Matrix):
+def check_adj_matrix(adj_matrix: pgb.Matrix, expected_type: type):
     if not adj_matrix.square:
         raise ValueError(
             f"Adjacency matrix must be square, provided shape: {adj_matrix.shape}"
         )
-    if not adj_matrix.type == pgb.BOOL:
+    if not adj_matrix.type == expected_type:
         raise ValueError(
-            f"Adjacency matrix must have bool type, provided type: {adj_matrix.type}"
+            f"Adjacency matrix must have {expected_type} type, provided type: {adj_matrix.type}"
         )
 
 

@@ -3,8 +3,10 @@ import pygraphblas as pgb
 from typing import List
 from typing import Tuple
 
-from project.checks import check_bool_adj_matrix
+from project.checks import check_adj_matrix
 from project.checks import check_start_in_range
+from project.pygraphblas_utils import matrix_to_list_of_key_and_value_list_tuples
+from project.pygraphblas_utils import vector_to_list
 
 __all__ = ["bfs", "multi_source_bfs"]
 
@@ -16,11 +18,11 @@ def bfs(adj_matrix: pgb.Matrix, start: int) -> List[int]:
 
     :param adj_matrix: adjacency matrix of `BOOL` data type for a graph to perform bfs on
     :param start: index of the starting vertex
-    :return: a list of integers representing distance to each vertex from the starting vertex
+    :return: a list of integers representing distance to each vertex from the starting vertex or -1 if the vertex is unreachable
     :raises ValueError: if the `adj_matrix` is not a square matrix or if it is not of `BOOL` data type
     :raises IndexError: if the `start` is out of range
     """
-    check_bool_adj_matrix(adj_matrix)
+    check_adj_matrix(adj_matrix, pgb.BOOL)
     num_vertices = adj_matrix.nrows
     check_start_in_range(start, num_vertices)
     front = pgb.Vector.sparse(pgb.BOOL, num_vertices)
@@ -31,8 +33,7 @@ def bfs(adj_matrix: pgb.Matrix, start: int) -> List[int]:
         res[front] = i
         front.vxm(adj_matrix, out=front, mask=res, desc=pgb.descriptor.RSC)
         i += 1
-    res.assign_scalar(-1, mask=res, desc=pgb.descriptor.S & pgb.descriptor.C)
-    return list(res.vals)
+    return vector_to_list(res, default_value=-1)
 
 
 def multi_source_bfs(
@@ -58,7 +59,7 @@ def multi_source_bfs(
     >>> print(parents)
     [(0, [-1, 0, 0, 1]), (2, [-2, -2, -1, 2])]
     """
-    check_bool_adj_matrix(adj_matrix)
+    check_adj_matrix(adj_matrix, pgb.BOOL)
     num_vertices = adj_matrix.nrows
     for start in starts:
         check_start_in_range(start, num_vertices)
@@ -78,5 +79,6 @@ def multi_source_bfs(
             desc=pgb.descriptor.RSC,
         )
         i += 1
-    res.assign_scalar(-2, mask=res, desc=pgb.descriptor.S & pgb.descriptor.C)
-    return [(start, list(res[i, :].vals)) for i, start in enumerate(starts)]
+    return matrix_to_list_of_key_and_value_list_tuples(
+        res, row_keys=starts, default_value=-2
+    )

@@ -25,7 +25,7 @@ def read_graph(name: str) -> nx.Graph:
 
 def digraph_to_ajd_matrix(graph: nx.Graph) -> pgb.Matrix:
     """
-    Creates boolean adjacency matrix for a directed given graph
+    Creates boolean adjacency matrix for a given directed graph
     :param graph: input (unlabeled) graph
     :return: boolean adjacency matrix
     """
